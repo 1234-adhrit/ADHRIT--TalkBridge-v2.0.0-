@@ -1,0 +1,20 @@
+{
+  "name": "whatscall-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WhatsApp-style calling platform with unique username accounts, contacts, voice calls, and video calls.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "playwright": "^1.58.2",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.3"
+  }
+}

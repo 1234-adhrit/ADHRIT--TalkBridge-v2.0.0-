@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhatsCall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="grain"></div>
+
+  <main class="shell">
+    <section class="auth-panel card" id="auth-panel">
+      <div class="brand-row">
+        <div class="brand-mark">W</div>
+        <div>
+          <p class="eyebrow">Private calling platform</p>
+          <h1>WhatsCall</h1>
+        </div>
+      </div>
+      <p class="lede">
+        Create one unique username, keep it forever, add people as contacts by searching usernames, then chat, call, or video call once they accept.
+      </p>
+
+      <div class="auth-toggle">
+        <button type="button" class="toggle-btn active" data-auth-mode="login">Sign in</button>
+        <button type="button" class="toggle-btn" data-auth-mode="register">Create account</button>
+      </div>
+
+      <form id="auth-form" class="auth-form">
+        <label class="field">
+          <span>Username</span>
+          <input id="auth-username" type="text" autocomplete="username" maxlength="32" placeholder="Your username" />
+        </label>
+
+        <label class="field">
+          <span>8-digit password</span>
+          <input id="auth-password" type="password" autocomplete="current-password" inputmode="numeric" maxlength="8" placeholder="12345678" />
+        </label>
+
+        <button type="submit" class="primary-btn" id="auth-submit">Sign in</button>
+        <p class="form-note">Usernames are unique. Passwords must be exactly 8 digits.</p>
+        <p class="form-status" id="auth-status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="app-panel" id="app-panel" hidden>
+      <aside class="sidebar card">
+        <div class="sidebar-header">
+          <div class="me-summary">
+            <div class="avatar large" id="me-avatar">?</div>
+            <div class="me-copy">
+              <p class="eyebrow">Signed in as</p>
+              <h2 id="me-name">---</h2>
+              <p id="me-status" class="status-line">Online now</p>
+              <p id="me-bio" class="profile-bio">Add a bio and status from Edit profile.</p>
+            </div>
+          </div>
+          <div class="sidebar-actions">
+            <button type="button" class="secondary-btn" id="edit-profile-btn">Edit profile</button>
+            <button type="button" class="ghost-btn" id="logout-btn">Log out</button>
+            <button type="button" class="danger-btn" id="delete-account-btn">Delete account</button>
+          </div>
+        </div>
+
+        <div class="search-box inset-card">
+          <label class="field compact">
+            <span>Search usernames</span>
+            <input id="search-input" type="text" placeholder="Find a username" />
+          </label>
+        </div>
+
+        <section class="section">
+          <div class="section-head">
+            <h3>Search results</h3>
+            <span id="search-count" class="count"></span>
+          </div>
+          <div id="search-results" class="list"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h3>Requests</h3>
+            <span id="request-count" class="count"></span>
+          </div>
+          <div id="requests-list" class="list"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h3>Chats</h3>
+            <span id="chat-count" class="count"></span>
+          </div>
+          <div id="chats-list" class="list"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h3>Contacts</h3>
+            <span id="contact-count" class="count"></span>
+          </div>
+          <div id="contacts-list" class="list"></div>
+        </section>
+      </aside>
+
+      <section class="workspace card">
+        <div id="workspace-empty" class="workspace-empty">
+          <div class="empty-art"></div>
+          <h2>Pick a profile to start</h2>
+          <p>Search a username, add them as a contact, wait for the other person to accept, then chat, call, or video call from the panel on the right.</p>
+        </div>
+
+        <div id="contact-panel" class="contact-panel" hidden>
+          <div class="contact-panel-top">
+            <div class="avatar large" id="selected-avatar">?</div>
+            <div>
+              <p class="eyebrow">Profile</p>
+              <h2 id="selected-name">---</h2>
+              <p id="selected-status" class="status-line">Offline</p>
+            </div>
+          </div>
+
+          <div class="contact-actions">
+            <button type="button" class="primary-btn" id="selected-chat-action">Chat</button>
+            <button type="button" class="danger-btn" id="selected-leave-chat">Leave chat</button>
+            <button type="button" class="primary-btn" id="selected-audio-call">Audio call</button>
+            <button type="button" class="secondary-btn" id="selected-video-call">Video call</button>
+            <button type="button" class="ghost-btn" id="selected-remove">Remove contact</button>
+          </div>
+
+          <div class="inset-card note-card" id="selected-note">
+            <p>Send a contact request first. Once the other user accepts, chat, voice calls, and video calls become available here and in the contact list.</p>
+          </div>
+
+          <section class="chat-panel card" id="chat-panel" hidden>
+            <div class="chat-panel-top">
+              <div>
+                <p class="eyebrow">Chat</p>
+                <h3 id="chat-peer-name">---</h3>
+                <p id="chat-peer-status" class="status-line">Waiting for acceptance.</p>
+              </div>
+              <button type="button" class="ghost-btn" id="close-chat-btn">Close chat</button>
+            </div>
+
+            <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+            <p id="chat-empty" class="chat-empty">Open a chat to start sending messages, PDFs, photos, and videos.</p>
+
+            <form id="chat-form" class="chat-form">
+              <label class="field chat-field">
+                <span>Write a message</span>
+                <textarea id="chat-input" rows="3" placeholder="Type a message..."></textarea>
+              </label>
+
+              <div class="chat-actions-row">
+                <label class="ghost-btn chat-file-button" for="chat-file-input">Add files</label>
+                <input id="chat-file-input" type="file" multiple accept="image/*,video/*,application/pdf,.pdf" />
+                <button type="button" class="ghost-btn" id="clear-chat-files">Clear files</button>
+                <button type="submit" class="primary-btn" id="send-chat-message">Send</button>
+              </div>
+
+              <div id="chat-file-preview" class="chat-file-preview"></div>
+            </form>
+          </section>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <div id="incoming-modal" class="modal" hidden>
+    <div class="modal-card incoming-card card">
+      <p class="eyebrow">Incoming call</p>
+      <h2 id="incoming-title">---</h2>
+      <p id="incoming-subtitle">---</p>
+      <div class="modal-actions">
+        <button type="button" class="primary-btn" id="accept-call">Accept</button>
+        <button type="button" class="danger-btn" id="reject-call">Reject</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete-account-modal" class="modal" hidden>
+    <form id="delete-account-form" class="modal-card card delete-account-card">
+      <p class="eyebrow">Delete account</p>
+      <h2>Delete your account forever?</h2>
+      <p class="delete-account-copy">
+        This will erase your profile, contacts, requests, and call access. It cannot be undone.
+      </p>
+      <label class="field">
+        <span>Enter your 8-digit password</span>
+        <input
+          id="delete-account-password"
+          type="password"
+          autocomplete="current-password"
+          inputmode="numeric"
+          maxlength="8"
+          placeholder="12345678"
+        />
+      </label>
+      <p class="form-status" id="delete-account-status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button type="submit" class="danger-btn" id="confirm-delete-account">Delete forever</button>
+        <button type="button" class="ghost-btn" id="cancel-delete-account">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="profile-modal" class="modal" hidden>
+    <form id="profile-form" class="modal-card card profile-card">
+      <p class="eyebrow">Profile</p>
+      <h2>Update your profile</h2>
+      <div class="profile-preview">
+        <div class="avatar large" id="profile-photo-preview">?</div>
+        <div class="profile-preview-copy">
+          <strong id="profile-preview-name">---</strong>
+          <span id="profile-preview-text">Choose a photo, add a status, and write a short bio.</span>
+        </div>
+      </div>
+      <label class="field">
+        <span>Profile photo</span>
+        <input id="profile-photo-input" type="file" accept="image/*" />
+      </label>
+      <input id="profile-remove-photo-flag" type="hidden" value="0" />
+      <button type="button" class="ghost-btn profile-remove-btn" id="profile-remove-photo-btn">Remove photo</button>
+      <label class="field">
+        <span>Status</span>
+        <input id="profile-status-input" type="text" maxlength="80" placeholder="Available on WhatsCall" />
+      </label>
+      <label class="field">
+        <span>Bio</span>
+        <textarea id="profile-bio-input" rows="4" maxlength="240" placeholder="Write something about yourself..."></textarea>
+      </label>
+      <p class="form-status" id="profile-status-message" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button type="submit" class="primary-btn" id="save-profile-btn">Save profile</button>
+        <button type="button" class="ghost-btn" id="cancel-profile-btn">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="active-call-modal" class="modal call-modal" hidden>
+    <div class="call-shell card">
+      <div class="call-topbar">
+        <div class="call-meta">
+          <p class="eyebrow" id="call-mode-label">Voice call</p>
+          <h2 id="call-title">---</h2>
+          <span class="call-timer" id="call-timer">00:00</span>
+        </div>
+        <button type="button" class="danger-btn" id="end-call">End call</button>
+      </div>
+
+      <div class="call-stage">
+        <video id="remote-video" autoplay playsinline></video>
+        <div class="call-overlay" id="voice-overlay">
+          <div class="avatar large" id="call-avatar">?</div>
+          <h3 id="call-status-title">Connecting...</h3>
+          <p id="call-status-text">Waiting for the other person to join.</p>
+        </div>
+        <video id="local-video" autoplay playsinline muted></video>
+        <div class="call-controls">
+          <button type="button" class="call-control-btn" id="toggle-audio">Mute</button>
+          <button type="button" class="call-control-btn" id="toggle-video" hidden>Video off</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
