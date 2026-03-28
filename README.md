@@ -162,3 +162,7 @@ Use this checklist when you are ready to publish the project:
 - `render.yaml` - Render Blueprint for GitHub-to-Render deployment
 - `data/users.json` - Local account storage
 - `data/chat-files/` - Uploaded chat attachments
+
+## Go Online
+
+- https://adhrit-talkbridge-new-v-two.onrender.com
