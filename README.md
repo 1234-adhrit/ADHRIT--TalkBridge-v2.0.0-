@@ -72,6 +72,7 @@ http://localhost:3001
 ```
 
 If you want to use a different port, set the `PORT` environment variable before starting the server.
+If `http://localhost:3000` is slow, busy, or not working, try `http://localhost:3001`.
 
 ## How to Use the Web App
 
