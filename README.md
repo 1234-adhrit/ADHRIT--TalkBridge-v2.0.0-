@@ -111,7 +111,7 @@ WhatsCall can run over HTTPS if you provide TLS files when starting the server:
 Example PowerShell launch:
 
 ```powershell
-$env:PORT = 3000
+$env:PORT = 3001
 $env:SSL_KEY_FILE = 'C:\certs\privkey.pem'
 $env:SSL_CERT_FILE = 'C:\certs\fullchain.pem'
 npm start
