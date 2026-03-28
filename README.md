@@ -68,7 +68,7 @@ npm start
 3. Open the app in your browser:
 
 ```text
-http://localhost:3000
+http://localhost:3001
 ```
 
 If you want to use a different port, set the `PORT` environment variable before starting the server.
